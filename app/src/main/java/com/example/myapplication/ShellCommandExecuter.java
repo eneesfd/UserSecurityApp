@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.util.Log;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -8,17 +10,16 @@ public class ShellCommandExecuter {
     public static void runShellCommand (String command)
     {
         try {
-            Process process = Runtime.getRuntime().exec("su");
-            DataOutputStream outputStream = new DataOutputStream(process.getOutputStream());
+            ProcessBuilder processBuilder = new ProcessBuilder("su", "-c", command);
+            Process process = processBuilder.start();
 
-            outputStream.writeBytes(command + "\n");
-            outputStream.flush();
-            outputStream.writeBytes("exit\n");
-            outputStream.flush();
-
-            process.waitFor();
-            outputStream.close();
-        }  catch (IOException | InterruptedException e) {
+            int exitCode = process.waitFor();
+            if (exitCode == 0) {
+                Log.d("ShellCommand","Succes");
+            } else {
+                Log.d("ShellCommand","Failed");
+            }
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }

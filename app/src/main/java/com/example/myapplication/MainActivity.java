@@ -33,18 +33,16 @@ public class MainActivity extends AppCompatActivity {
     }
     private void startService()
     {
-        ShellCommandExecuter shellCommandExecuter = new ShellCommandExecuter();
-        Intent serviceIntent = new Intent(getApplicationContext(), MyService.class);
+        ShellCommandExecuter.runShellCommand("echo 1 > /sys/class/gpio/gpio56/value");
+        Intent serviceIntent = new Intent(this, MyService.class);
         startService(serviceIntent);
-        ShellCommandExecuter.runShellCommand("echo 1 > sys/class/gpio/gpio56/value");
     }
 
     private void stopService()
     {
-        ShellCommandExecuter shellCommandExecuter = new ShellCommandExecuter();
-        Intent serviceIntent = new Intent(getApplicationContext(), MyService.class);
+        ShellCommandExecuter.runShellCommand("echo 1 > /sys/class/gpio/gpio56/value");
+        Intent serviceIntent = new Intent(this , MyService.class);
         stopService(serviceIntent);
         Toast.makeText(this, "Servis Çalışmayı Durdurdu", Toast.LENGTH_SHORT).show();
-        ShellCommandExecuter.runShellCommand("echo 1 > sys/class/gpio/gpio56/value");
     }
 }
